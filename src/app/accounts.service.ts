@@ -1,8 +1,5 @@
-import {bind} from '@angular/core/src/render3/instructions';
-
 export class AccountsService implements  Iterable<{name: string, status: string}> {
-  idx = 0;
-  accounts = [
+  private accounts = [
     {
       name: 'Master Account',
       status: 'active'
@@ -22,32 +19,19 @@ export class AccountsService implements  Iterable<{name: string, status: string}
   }
 
   [Symbol.iterator](): Iterator<{ name: string; status: string }> {
+    let idx = 0;
+    const arr = this.accounts;
+    const len = arr.length;
 
-      return {
-        next: function () {
-          const len = this.accounts.length;
-          const res = {
-            done:  this.idx >= len,
-            value: this.idx < len ? this.accounts[this.idx] : null
-          };
-
-          if (res.value) {
-            console.log('AccountsService iterator: res.value.name=' +
-              res.value.name +
-              ', res.value.status=' +
-              res.value.status +
-              ', idx=' +
-              this.idx
-            );
-          } else {
-            console.log('AccountsService iterator: res.value=null with idx=' +
-              this.idx
-            );
-          }
-          this.idx++;
-          return res;
-        }.bind(this)
+    return {
+      next: function () {
+        const res = {
+          done:  idx >= len,
+          value: idx < len ? arr[idx++] : null
+        };
+        return res;
       }
+    }
   }
 
   addAccount(name: string, status: string) {
