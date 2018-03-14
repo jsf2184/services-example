@@ -7,7 +7,22 @@ export class LoggingService {
     console.log('LoggingService constructed');
   }
 
-  logStatusChange(status: string) {
-    console.log('A server status changed, new status: ' + status);
+  logStatusChange(id: number, name: string, status: string) {
+    console.log('Server ' +
+      name +
+      ' with id: ' +
+      id +
+      ' status changed to: '
+      + status);
   }
+
+  logNewService(id: number, name: string, status: string) {
+    console.log('Server ' +
+      name +
+      ' with id: ' +
+      id +
+      ', status changed to: ' +
+      status);
+  }
+
 }

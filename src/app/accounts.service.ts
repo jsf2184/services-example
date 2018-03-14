@@ -1,3 +1,8 @@
+import {LoggingService} from './logging.service';
+import {Injectable} from '@angular/core';
+
+@Injectable()
+
 export class AccountsService implements  Iterable<{name: string, status: string}> {
   private accounts = [
     {
@@ -14,10 +19,11 @@ export class AccountsService implements  Iterable<{name: string, status: string}
     }
   ];
 
-  constructor() {
+  constructor(private loggingService: LoggingService) {
     console.log('AccountsService constructed');
   }
 
+  // Symbol.iterator is the name of the method which returns an Iterator.
   [Symbol.iterator](): Iterator<{ name: string; status: string }> {
     let idx = 0;
     const arr = this.accounts;
@@ -36,9 +42,15 @@ export class AccountsService implements  Iterable<{name: string, status: string}
 
   addAccount(name: string, status: string) {
     this.accounts.push({name: name, status: status});
+    this.loggingService.logStatusChange(this.accounts.length - 1,
+      name,
+      status);
+
   }
 
-  updateStatus (id: number, status: string) {
+  updateStatus (id: number, name: string, status: string) {
     this.accounts[id].status = status;
+    this.loggingService.logStatusChange(id, name, status);
+
   }
 }
