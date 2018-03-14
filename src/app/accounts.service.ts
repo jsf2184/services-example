@@ -1,5 +1,5 @@
 import {LoggingService} from './logging.service';
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 
 @Injectable()
 
@@ -18,6 +18,8 @@ export class AccountsService implements  Iterable<{name: string, status: string}
       status: 'unknown'
     }
   ];
+
+  statusUpdated = new EventEmitter<{id: number, name: string, status: string}>();
 
   constructor(private loggingService: LoggingService) {
     console.log('AccountsService constructed');
@@ -51,6 +53,7 @@ export class AccountsService implements  Iterable<{name: string, status: string}
   updateStatus (id: number, name: string, status: string) {
     this.accounts[id].status = status;
     this.loggingService.logStatusChange(id, name, status);
+    this.statusUpdated.emit({id: id, name: name, status: status});
 
   }
 }

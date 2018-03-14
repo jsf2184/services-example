@@ -11,5 +11,15 @@ import {AccountsService} from './accounts.service';
 export class AppComponent {
 
   constructor(public accountsService: AccountsService) {
+    this.accountsService.statusUpdated.subscribe(
+      (arg: {id: number, name: string, status: string}) => alert(
+        'Status of service ' +
+        arg.name +
+        ' with id = ' +
+        arg.id +
+        ' changed to ' +
+        arg.status
+      )
+    )
   }
 }
